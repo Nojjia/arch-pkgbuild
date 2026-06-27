@@ -87,5 +87,5 @@ package() {
 	cd "$srcdir/${pkgname}"
 	make PREFIX=/usr DESTDIR="$pkgdir/" install
 	install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
-	install -Dm644 dwm.desktop -t "${pkgdir}/usr/share/xsessions/dwm.desktop"
+	install -Dm644 dwm.desktop -t "${pkgdir}/usr/share/xsessions/"
 }
