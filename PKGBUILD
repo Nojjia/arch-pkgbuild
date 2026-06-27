@@ -46,7 +46,7 @@ conflicts=("${pkgname}")
 
 ## Others
 #backup=()
-options=(strip zipman ccache distcc buildflags makeflags !debug lto)
+options=(strip zipman !debug lto)
 #install=dwm.install
 #changelog=
 
