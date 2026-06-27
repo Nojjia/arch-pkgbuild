@@ -87,5 +87,18 @@ package() {
 	cd "$srcdir/${pkgname}"
 	make PREFIX=/usr DESTDIR="$pkgdir/" install
 	install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+	sed -i 's|^Exec=.*|Exec=/usr/bin/dwm.sh|' dwm.desktop
 	install -Dm644 dwm.desktop -t "${pkgdir}/usr/share/xsessions/"
+	install -Dm755 dwm.sh -t "${pkgdir}/etc/xdg/dwm/"
+	install -Dm755 /dev/stdin "${pkgdir}/usr/bin/dwm.sh" <<'EOF'
+#!/bin/sh
+if [ -f "${HOME}/.config/dwm/dwm.sh" ]; then
+	. "${HOME}/.config/dwm/dwm.sh"
+elif [ -f "/etc/xdg/dwm/dwm.sh" ]; then
+	. "/etc/xdg/dwm/dwm.sh"
+else
+	mkdir -p "${HOME}/.logs"
+	dwm 2> "${HOME}/.logs/dwm"
+fi
+EOF
 }

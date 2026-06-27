@@ -4,9 +4,10 @@
 #}
 
 ## arg 1:  the new package version
-#post_install() {
-#	do something here
-#}
+post_install() {
+	mkdir -p "${HOME}/.config/dwm"
+	[ -f "${HOME}/.config/dwm/dwm.sh" ] || cp /etc/xdg/dwm/dwm.sh "${HOME}/.config/dwm/"
+}
 
 ## arg 1:  the new package version
 ## arg 2:  the old package version

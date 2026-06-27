@@ -21,7 +21,10 @@ pkgbase = dwm
 	optdepends = playerctl: mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, and others.
 	provides = dwm
 	conflicts = dwm
+	options = strip
 	options = zipman
+	options = !debug
+	options = lto
 	source = dwm::git+https://github.com/Nojjia/dwm.git
 	sha256sums = SKIP
 
