@@ -1,24 +1,54 @@
 # Maintainer: Nojjia
 
 ## Package name
-pkgname=zen-browser-git
+pkgname=zen-browser-stable-git
 
 ## Version
 pkgver=0
 pkgrel=1
 
 ## Generic
-pkgdesc="Beautifully designed, privacy-focused, and packed with features. "
+pkgdesc="Beautifully designed, privacy-focused, and packed with features. Stable release"
 arch=(x86_64)
 url="https://zen-browser.app/"
 license=('MPL-2.0')
 groups=()
 
 ## Dependencies
-depends=()
+depends=(
+	alsa-lib
+	cairo
+	dbus
+	firefox
+	fontconfig
+	freetype2
+	gcc
+	glibc
+	gtk3
+	libtasn1
+	libx11
+	libxcb
+	libxcomposite
+	libxcursor
+	libxdamage
+	libxext
+	libxfixes
+	libxi
+	libxrandr
+	libxrender
+	nspr
+	nss
+	)
 makedepends=(base-devel git curl python python-pip libvips sccache)
 #checkdepends=()
-optdepends=()
+optdepends=(
+	hunspell-en_US
+	libnotify
+	networkmanager
+	onnxruntime
+	speech-dispatcher
+	xdg-desktop-portal
+	)
 
 ## Package relations
 provides=("${pkgname%-VCS}")
@@ -26,9 +56,9 @@ conflicts=("${pkgname%-VCS}")
 replaces=()
 
 ## Others
-backup=()
-options=()
-install=
+#backup=()
+options=(strip zipman !debug lto)
+install=zen-browser.install
 #changelog=
 
 ## Sources
