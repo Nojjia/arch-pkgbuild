@@ -56,10 +56,10 @@ options=(!strip !debug)
 install='zen-browser.install'
 source_x86_64=("$pkgname-$pkgver-$pkgrel-x86_64.tar.xz::https://github.com/zen-browser/desktop/releases/download/$pkgver/zen.linux-$CARCH.tar.xz")
 source_aarch64=("$pkgname-$pkgver-$pkgrel-aarch64.tar.xz::https://github.com/zen-browser/desktop/releases/download/$pkgver/zen.linux-$CARCH.tar.xz")
-source=("${pkgname%-bin}.desktop")
+source=("${pkgname/-browser-bin/}.desktop")
 sha256sums=('3fad64d11c1fbc015c024c5b3517fdbfab2f5585bd2ad0b1c39a805ae0ff791a')
 sha256sums_x86_64=('0dea09bbc5fed9e1e32839f288a609b0b20eb1befed8d4f892e222a65dfaa069')
-sha256sums_aarch64=('8178a85fca13ca1baf03c8c003ff833f4fae829a6b0e84d0111f28737f0c3b00')
+sha256sums_aarch64=('0dea09bbc5fed9e1e32839f288a609b0b20eb1befed8d4f892e222a65dfaa069')
 
 package() {
 	local appdir="$pkgdir/opt/$pkgname"
@@ -67,7 +67,7 @@ package() {
 
 	# Install zen
 	#/opt instead of /usr/lib because this is a packaged binary
-	cp -a zen/. "$appdir"
+	cp -a "$srcdir/zen/." "$appdir"
 
 	# Install policies.json to disable auto-update
 	install -Dvm644 /dev/stdin "$appdir/distribution/policies.json" <<END
@@ -92,7 +92,7 @@ END
 	done
 	
 	# Install desktop file
-	install -Dvm644 ../${pkgname%-bin}.desktop -t "$pkgdir/usr/share/applications/"
+	install -Dvm644 "$srcdir/${pkgname/-browser-bin/}.desktop" -t "$pkgdir/usr/share/applications/"
 
 	# install a binary wrapper
 	install -Dvm755 /dev/stdin "$pkgdir/usr/bin/${pkgname%-bin}" <<END

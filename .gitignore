@@ -1,3 +1,9 @@
-zen-browser-bin*
-pkg/
-src/
+*
+
+!PKGBUILD
+!.SRCINFO
+!zen.desktop
+!zen-browser.install
+!.gitignore
+!LICENSE
+!README.md
