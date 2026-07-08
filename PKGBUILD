@@ -53,13 +53,12 @@ optdepends=(
 provides=("${pkgname%-bin}=$pkgver")
 conflicts=('zen-browser' 'zen-browser-git')
 options=(!strip !debug)
-install='zen-browser.install'
-source_x86_64=("$pkgname-$pkgver-$pkgrel-x86_64.tar.xz::https://github.com/zen-browser/desktop/releases/download/$pkgver/zen.linux-$CARCH.tar.xz")
-source_aarch64=("$pkgname-$pkgver-$pkgrel-aarch64.tar.xz::https://github.com/zen-browser/desktop/releases/download/$pkgver/zen.linux-$CARCH.tar.xz")
+source_x86_64=("$pkgname-$pkgver-$pkgrel-x86_64.tar.xz::https://github.com/zen-browser/desktop/releases/download/$pkgver/zen.linux-x86_64.tar.xz")
+source_aarch64=("$pkgname-$pkgver-$pkgrel-aarch64.tar.xz::https://github.com/zen-browser/desktop/releases/download/$pkgver/zen.linux-aarch64.tar.xz")
 source=("${pkgname/-browser-bin/}.desktop")
 sha256sums=('3fad64d11c1fbc015c024c5b3517fdbfab2f5585bd2ad0b1c39a805ae0ff791a')
 sha256sums_x86_64=('0dea09bbc5fed9e1e32839f288a609b0b20eb1befed8d4f892e222a65dfaa069')
-sha256sums_aarch64=('0dea09bbc5fed9e1e32839f288a609b0b20eb1befed8d4f892e222a65dfaa069')
+sha256sums_aarch64=('8178a85fca13ca1baf03c8c003ff833f4fae829a6b0e84d0111f28737f0c3b00')
 
 package() {
 	local appdir="$pkgdir/opt/$pkgname"
