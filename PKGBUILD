@@ -55,7 +55,7 @@ options=(!strip !debug)
 source_x86_64=("$pkgname-$pkgver-$pkgrel-x86_64.tar.xz::https://github.com/zen-browser/desktop/releases/download/$pkgver/zen.linux-x86_64.tar.xz")
 source_aarch64=("$pkgname-$pkgver-$pkgrel-aarch64.tar.xz::https://github.com/zen-browser/desktop/releases/download/$pkgver/zen.linux-aarch64.tar.xz")
 source=('zen.desktop')
-sha256sums=('5ed53440b4a0505474058ee54f24924254e78ca4298e0f8e2a6dcec024167588')
+sha256sums=('8bc43491b64acf38565b4d7adc5314757d26166decde0d5943cfc2b5e48bc0d6')
 sha256sums_x86_64=('eff490152c21b9a55b863b9df02370c30567e1027fe388eee939ed4082b53b20')
 sha256sums_aarch64=('68df873f8b52c587a9d2fd9b46abc60c48d17e91741901ae2d0614f7ebe37469')
 
