@@ -14,7 +14,7 @@ List of packages:
 
 My idea is that, if I need to build a specific PKGBUILD(for whatever reason), I'll just run `git clone https://github.com/Nojjia/arch-pkgbuild.git --branch=XYZ`, `XYZ` being the branch.
 
-## Package testing and sanity checks - Reminder for me
+## Package to-dos, testing and sanity checks - Reminder for me
 
 1. `makepkg`
 
@@ -27,3 +27,5 @@ My idea is that, if I need to build a specific PKGBUILD(for whatever reason), I'
 5. `namcap pkgname.pkg.tar.zst`
 
 6. `pkgctl build`
+
+7. `makepkg --printsrcinfo > .SRCINFO`
