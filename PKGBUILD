@@ -2,7 +2,7 @@
 
 pkgname=zen-browser-bin
 pkgver=1.21.6b
-pkgrel=2
+pkgrel=3
 pkgdesc='Performance oriented Firefox-based web browser'
 arch=('x86_64' 'aarch64')
 url='https://zen-browser.app/'
