@@ -1,104 +1,91 @@
-# Maintainer: Nojjia <youremail@domain.com>
-
-## Custom Set Variables
-_vcs=git
-
-## Package Name
-pkgname=dwm
-
-## Package Version
-pkgver=r3.3bd597b
+# Maintainer: Nojjia
+pkgname=arduino-ide-v2-bin
+pkgver=2.3.10
 pkgrel=1
-#epoch= #!Should not be used!
-
-## Generic
-pkgdesc="Dynamic Window Manager - Nojjia's Roll"
+pkgdesc='Arduino prototyping platform IDE, rewrite based on the Theia IDE framework.'
 arch=(x86_64)
-url="https://github.com/Nojjia/dwm"
-license=('MIT')
-#groups=()
-
-## Dependencies
+url='https://arduino.cc/'
+license=('AGPL-3.0-or-later')
+groups=(ide)
 depends=(
+	alsa-lib
+	at-spi2-core
+	cairo
+	dbus
+	expat
+	glib2
+	glibc
+	gtk3
+	libcups
+	libdrm
+	libgcc
+	libsecret
+	libstdc++
 	libx11
-	libxinerama
-	fontconfig
-	libxft
-) #Package name
-makedepends=($_vcs)
-#checkdepends=()
+	libxcb
+	libxcomposite
+	libxdamage
+	libxext
+	libxfixes
+	libxkbcommon
+	libxkbfile
+	libxrandr
+	mesa
+	nspr
+	nss
+	pango
+)
 optdepends=(
-	'rofi: A window switcher, application launcher and dmenu replacement'
-	'alacritty: A cross-platform, GPU-accelerated terminal emulator'
-	'dolphin: KDE File Manager'
-	'zen-browser: Performance oriented Firefox-based web browser'
-	'firefox: Fast, Private & Safe Web Browser'
-	'kalk: A powerful cross-platform calculator application built with the Kirigami framework'
-	'brightnessctl: Lightweight brightness control tool'
-	'wireplumber: Session / policy manager implementation for PipeWire'
-	'playerctl: mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, and others.'
-	)
-
-## Package Relations
-provides=("${pkgname}")
-conflicts=("${pkgname}")
-#replaces=()
-
-## Others
-#backup=()
-options=(strip zipman !debug lto)
-#install=dwm.install
-#changelog=
-
-## Sources
-source=("$pkgname::$_vcs+$url.git")
-#noextract=()
-#validpgpkeys=()
-
-## Integrity
-sha256sums=('SKIP')
-
-pkgver() {
-	cd "$srcdir/${pkgname}"
-
-# Git, tags available
-#	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
-
-# Git, no tags available
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-
-}
+	'libusb: Needed for some libraries or boards'
+	'usbutils: Needed for stm32 boards using st-link'
+	'libusb-compat: Needed for the `micronucleus` cli utility'
+	'python-pyserial: Needed for esptool'
+)
+conflicts=(arduino-ide arduino-ide-git)
+options=(!debug !strip)
+source=("https://github.com/arduino/arduino-ide/releases/download/2.3.10/arduino-ide_${pkgver}_Linux_64bit.zip"
+)
+sha256sums=('cc8a0b01e763d4646b670ce70c1bc8c389a0fa14ab556dcc0749c03f475a7975')
 
 prepare() {
-	cd "$srcdir/${pkgname}"
-}
+	rm -rf "$srcdir/arduino-ide_${pkgver}_Linux_64bit/resources/app/plugins/cortex-debug/extension/binary_modules/v12.14.1/win32"
+	rm -rf "$srcdir/arduino-ide_${pkgver}_Linux_64bit/resources/app/plugins/cortex-debug/extension/binary_modules/v12.18.3"
+	rm -rf "$srcdir/arduino-ide_${pkgver}_Linux_64bit/resources/app/plugins/cortex-debug/extension/binary_modules/v12.14.1/darwin"
 
-build() {
-	cd "$srcdir/${pkgname}"
-	make
+	rm -rf "$srcdir/arduino-ide_${pkgver}_Linux_64bit/resources/app/plugins/cortex-debug/extension/binary_modules/v12.14.1/linux/arm"
+	rm -rf "$srcdir/arduino-ide_${pkgver}_Linux_64bit/resources/app/plugins/cortex-debug/extension/binary_modules/v12.14.1/linux/arm64"
 }
-
-#check() {
-#	cd "$srcdir/${pkgname}"
-#	make -k check
-#}
 
 package() {
-	cd "$srcdir/${pkgname}"
-	make PREFIX=/usr DESTDIR="$pkgdir/" install
-	install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
-	sed -i 's|^Exec=.*|Exec=/usr/bin/dwm.sh|' dwm.desktop
-	install -Dm644 dwm.desktop -t "${pkgdir}/usr/share/xsessions/"
-	install -Dm755 dwm.sh -t "${pkgdir}/etc/xdg/dwm/"
-	install -Dm755 /dev/stdin "${pkgdir}/usr/bin/dwm.sh" <<'EOF'
+	local appdir="$pkgdir/opt/$pkgname"
+	install -d "$appdir"
+
+	# Install arduino-ide-v2
+	# Install to /opt instead of /usr/lib because this is a packaged binary
+	cp -a "$srcdir/arduino-ide_${pkgver}_Linux_64bit/." "$appdir"
+
+	# Install desktop icons
+	install -Dm644 "$appdir/resources/app/resources/icons/512x512.png" "$pkgdir/usr/share/icons/hicolor/512x512/apps/${pkgname%-bin}.png"
+
+	# Install desktop entry
+	install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop" <<EOF
+[Desktop Entry]
+Name=Arduino IDE 2.x
+Comment=Opensource electronics prototyping platform
+Exec=arduino-ide-v2 %u
+Icon=arduino-ide-v2
+Type=Application
+StartupWMClass=arduino-ide-v2
+Categories=Development;IDE;Electronics;
+StartupNotify=true
+Terminal=false
+GenericName=Arduino IDE 2.x
+Keywords=embedded electronics;avr;microcontroller;
+MimeType=text/x-arduino;
+EOF
+
+	install -Dm755 /dev/stdin "$pkgdir/usr/bin/${pkgname%-bin}" <<EOF
 #!/bin/sh
-if [ -f "${HOME}/.config/dwm/dwm.sh" ]; then
-	. "${HOME}/.config/dwm/dwm.sh"
-elif [ -f "/etc/xdg/dwm/dwm.sh" ]; then
-	. "/etc/xdg/dwm/dwm.sh"
-else
-	mkdir -p "${HOME}/.logs"
-	dwm 2> "${HOME}/.logs/dwm"
-fi
+exec /opt/arduino-ide-v2-bin/arduino-ide "$@"
 EOF
 }
