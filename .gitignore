@@ -1,2 +1,9 @@
-dwm/
-dwm-r*
+*
+
+!PKGBUILD
+!.SRCINFO
+!zen.desktop
+!zen-browser.install
+!.gitignore
+!LICENSE
+!README.md
